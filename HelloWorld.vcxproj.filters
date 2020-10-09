@@ -43,5 +43,11 @@
     <None Include="shaders\shader01.vs">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="shaders\shader02.fs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="shaders\shader02.vs">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

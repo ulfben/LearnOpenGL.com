@@ -30,8 +30,8 @@ public:
     void setInt(const std::string& name, int value) const noexcept {
         glUniform1i(glGetUniformLocation(ID, name.c_str()), value);
     }
-    void setFloat(const std::string& name, float value) const noexcept {
-        glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
+    void setFloat(std::string_view name, float value) const noexcept {
+        glUniform1f(glGetUniformLocation(ID, name.data()), value);
     }
 
 private:
