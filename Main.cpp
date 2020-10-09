@@ -45,44 +45,7 @@ void processInput(GLFWwindow* window) noexcept  {
     }
 }
 
-static bool checkStatus(GLuint obj) noexcept{
-    GLint status = GL_FALSE;
-    if (glIsShader(obj)) glGetShaderiv(obj, GL_COMPILE_STATUS, &status);
-    if (glIsProgram(obj)) glGetProgramiv(obj, GL_LINK_STATUS, &status);
-    if (status == GL_TRUE) return true;
-    GLchar log[1 << 15] = { 0 };
-    if (glIsShader(obj)) glGetShaderInfoLog(obj, sizeof(log), NULL, log);
-    if (glIsProgram(obj)) glGetProgramInfoLog(obj, sizeof(log), NULL, log);
-    std::cerr << log << std::endl;   
-    return false;
-}
 
-GLuint buildShader() {
-    GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-    glCompileShader(vertexShader);
-    if (!checkStatus(vertexShader)) {
-        throw std::runtime_error("Failed to compile vertexShader\n");
-    }
-
-    GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-    glCompileShader(fragmentShader);
-    if (!checkStatus(fragmentShader)) {
-        throw std::runtime_error("Failed to compile fragmentShader\n");
-    }
-
-    GLuint shaderProgram = glCreateProgram();
-    glAttachShader(shaderProgram, vertexShader);
-    glAttachShader(shaderProgram, fragmentShader);
-    glLinkProgram(shaderProgram);
-    if (!checkStatus(shaderProgram)) {
-        throw std::runtime_error("Failed to link the shader\n");
-    }
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragmentShader);
-    return shaderProgram;
-};
 
 
 void render(GLuint shader, GLuint VAO, size_t elementCount) noexcept {    
