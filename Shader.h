@@ -8,8 +8,10 @@
 class Shader
 {
 public:    
-    GLuint ID;
-    
+    GLuint ID;    
+    Shader(const std::string& vertexShaderSource, const std::string& fragmentShaderSource) {
+        ID = buildShader(vertexShaderSource, fragmentShaderSource);
+    }
     Shader(const char* vertexPath, const char* fragmentPath) {
         // 1. retrieve the vertex/fragment source code from filePath        
         std::ifstream vShaderFile;
@@ -35,15 +37,21 @@ public:
             std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
         }*/
        ID = buildShader(vertexCode, fragmentCode);        
-    }
+    }      
     
     void use() const noexcept {
         glUseProgram(ID);
     }
     
-    void setBool(const std::string& name, bool value) const;
-    void setInt(const std::string& name, int value) const;
-    void setFloat(const std::string& name, float value) const;
+    void setBool(const std::string& name, bool value) const noexcept {
+        glUniform1i(glGetUniformLocation(ID, name.c_str()), (GLint)value);
+    }
+    void setInt(const std::string& name, int value) const noexcept {
+        glUniform1i(glGetUniformLocation(ID, name.c_str()), value);
+    }
+    void setFloat(const std::string& name, float value) const noexcept {
+        glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
+    }
 
 private:
     static bool checkStatus(GLuint obj) noexcept {
@@ -58,7 +66,7 @@ private:
         return false;
     }
 
-    GLuint buildShader(const std::string& vertexShaderSource, const std::string& fragmentShaderSource) {
+    GLuint buildShader(const std::string& vertexShaderSource, const std::string& fragmentShaderSource) const {
         GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
         const char* c_str = vertexShaderSource.c_str();
         glShaderSource(vertexShader, 1, &c_str, NULL);
