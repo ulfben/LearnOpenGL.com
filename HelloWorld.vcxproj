@@ -75,8 +75,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>D:\Temp\LearnOpenGL\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Temp\LearnOpenGL\Libs;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Libs;$(LibraryPath)</LibraryPath>
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <EnableClangTidyCodeAnalysis>true</EnableClangTidyCodeAnalysis>
     <CodeAnalysisRuleSet>C:\Users\ulfbe\source\repos\API2019\API2019\API2019.ruleset</CodeAnalysisRuleSet>
@@ -86,8 +86,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>D:\Temp\LearnOpenGL\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Temp\LearnOpenGL\Libs;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Libs;$(LibraryPath)</LibraryPath>
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <EnableClangTidyCodeAnalysis>true</EnableClangTidyCodeAnalysis>
     <CodeAnalysisRuleSet>C:\Users\ulfbe\source\repos\API2019\API2019\API2019.ruleset</CodeAnalysisRuleSet>
