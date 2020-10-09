@@ -1,8 +1,10 @@
 #include "System.h"
 #include "Window.h"
 #include "Shader.h"
+#include <filesystem>
 #include <iostream>
 #include <vector>
+using path = std::filesystem::path;
 /*
 * Picking up a bit of OpenGL in the evenings, following the tutorials over at https://learnopengl.com/
 */
@@ -20,21 +22,6 @@ const std::vector<GLuint> indices = {
     1, 2, 3   // second tri
 };
 
-const std::string vertexShaderSource = R"(#version 330 core
-layout (location = 0) in vec3 aPos;
-void main()
-{
-    gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0f);
-})";
-
-const std::string fragmentShaderSource =
-R"(#version 330 core
-out vec4 FragColor;
-void main()
-{
-    FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
-})";
-
 template <class T>
 inline void myBufferData(GLenum target, const std::vector<T>& v, GLenum usage) {
     glBufferData(target, v.size() * sizeof(T), v.data(), usage);
@@ -45,7 +32,6 @@ void processInput(GLFWwindow* window) noexcept  {
         glfwSetWindowShouldClose(window, true);
     }
 }
-
 
 void render(const Shader& shader, GLuint VAO, size_t elementCount) noexcept {    
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -62,10 +48,10 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[]){
     window.makeCurrent();   
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
         throw std::runtime_error("Failed to initialize GLAD \n");
-    }
+    }  
+    Shader shader(path("shaders/shader01.vs"), path("shaders/shader01.fs"));        
+    shader.use();
 
-    Shader shader(vertexShaderSource, fragmentShaderSource);
-        
     GLuint VBO, VAO, EBO; //Vertex Buffer Object (verts), Vertex Array Object (vertex attribute calls), Element Buffer Object (indices)
     glGenVertexArrays(1, &VAO); //Vertex Array Object (vertex attribute calls)
     glGenBuffers(1, &VBO); //Vertex Buffer Object (verts)

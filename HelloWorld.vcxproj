@@ -157,6 +157,7 @@
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="FileReader.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="System.h" />
     <ClInclude Include="Window.h" />

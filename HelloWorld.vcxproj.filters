@@ -32,6 +32,9 @@
     <ClInclude Include="Shader.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="FileReader.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\shader01.fs">

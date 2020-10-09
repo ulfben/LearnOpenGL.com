@@ -1,42 +1,23 @@
 #pragma once
-#include "glad/glad.h" // include glad to get all the required OpenGL headers
+#include "glad/glad.h"
+#include "FileReader.h"
 #include <string>
-#include <fstream>
-#include <sstream>
 #include <iostream>
+#include <string_view>
+#include <filesystem>
 
 class Shader
 {
+    using path = std::filesystem::path;
 public:    
     GLuint ID;    
-    Shader(const std::string& vertexShaderSource, const std::string& fragmentShaderSource) {
+    Shader(std::string_view vertexShaderSource, std::string_view fragmentShaderSource) {
         ID = buildShader(vertexShaderSource, fragmentShaderSource);
     }
-    Shader(const char* vertexPath, const char* fragmentPath) {
-        // 1. retrieve the vertex/fragment source code from filePath        
-        std::ifstream vShaderFile;
-        std::ifstream fShaderFile;
-        // ensure ifstream objects can throw exceptions:
-        vShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-        fShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);        
-        // open files
-        vShaderFile.open(vertexPath);
-        fShaderFile.open(fragmentPath);
-        std::stringstream vShaderStream, fShaderStream;
-        // read file's buffer contents into streams
-        vShaderStream << vShaderFile.rdbuf();
-        fShaderStream << fShaderFile.rdbuf();
-        // close file handlers
-        vShaderFile.close();
-        fShaderFile.close();
-        // convert stream into string
-        const auto vertexCode = vShaderStream.str();
-        const auto fragmentCode = fShaderStream.str();        
-       /* catch (std::ifstream::failure e)
-        {
-            std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
-        }*/
-       ID = buildShader(vertexCode, fragmentCode);        
+    Shader(path vertexShader, path fragmentShader) {
+        FileReader vShader(vertexShader);
+        FileReader fShader(fragmentShader);       
+        ID = buildShader(vShader.getContent(), fShader.getContent());        
     }      
     
     void use() const noexcept {
@@ -66,9 +47,9 @@ private:
         return false;
     }
 
-    GLuint buildShader(const std::string& vertexShaderSource, const std::string& fragmentShaderSource) const {
+    GLuint buildShader(std::string_view vertexShaderSource, std::string_view fragmentShaderSource) const {
         GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-        const char* c_str = vertexShaderSource.c_str();
+        const char* c_str = vertexShaderSource.data();
         glShaderSource(vertexShader, 1, &c_str, NULL);
         glCompileShader(vertexShader);
         if (!checkStatus(vertexShader)) {
@@ -76,8 +57,8 @@ private:
         }
 
         GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-        const char* c_str2 = fragmentShaderSource.c_str();
-        glShaderSource(fragmentShader, 1, &c_str2, NULL);
+        c_str = fragmentShaderSource.data();
+        glShaderSource(fragmentShader, 1, &c_str, NULL);
         glCompileShader(fragmentShader);
         if (!checkStatus(fragmentShader)) {
             throw std::runtime_error("Failed to compile fragmentShader\n");

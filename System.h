@@ -1,5 +1,5 @@
 #pragma once
-#include "glad/glad.h"
+#include "glad/glad.h"  // include glad to get all the required OpenGL headers
 #include "GLFW/glfw3.h"
 #include <stdexcept>
 #include <string_view>
@@ -14,7 +14,6 @@ public:
             throw std::runtime_error("Failed to initialize glfw \n");
         }        
 	}
-
 
 	~System() {
         glfwTerminate();
