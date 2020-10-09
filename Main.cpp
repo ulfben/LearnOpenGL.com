@@ -94,7 +94,6 @@ void render(GLuint shader, GLuint VAO, size_t elementCount) noexcept {
     glDrawElements(GL_TRIANGLES, static_cast<GLuint>(elementCount), GL_UNSIGNED_INT, 0);
 }
 
-
 int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[]){
     System system;    
     Window window(SCREEN_WIDTH, SCREEN_HEIGHT, "LearnOpenGL");
