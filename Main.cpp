@@ -19,6 +19,18 @@ const std::vector<GLfloat> vertices = {
      0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f    // top 
 };
 
+template<typename T>
+constexpr T PI = T(3.141592653589793238462643383279502884L);
+
+template<typename T>
+constexpr T TO_DEGREES = 180.0L / PI<T>;
+
+template<typename T>
+constexpr T TO_RADIANS = PI<T> / 180.0L;
+
+template<typename T>
+constexpr T radians(const T degrees) { return TO_RADIANS<T> * degrees; };
+
 template <class T>
 inline void myBufferData(GLenum target, const std::vector<T>& v, GLenum usage) {
     glBufferData(target, v.size() * sizeof(T), v.data(), usage);
@@ -76,13 +88,14 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[]){
     
     // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindVertexArray(0); //unbind VAO 
-       
-    float range = 1;
-    float count = 0;
-    while (!window.shouldClose()) {
-        float offset = std::sinf(count += 0.000125) * range;
-        processInput(window.getPtr());        
+    glBindVertexArray(0); //unbind VAO       
+      
+    const auto RANGE = 1.0; //amplitude of our sine wave (how far to travel)
+    const auto SPEED = 360.0 / 2.0; //I want to cover a full revolution (360 degrees) in 2 seconds.
+    while (!window.shouldClose()) {        
+        processInput(window.getPtr());
+        const auto angle = std::fmod(glfwGetTime() * SPEED, 360); //turn linear, ever growing, timestamp into 0-359 range                
+        const auto offset = std::sin(radians(angle)) * RANGE;        
         shader.setFloat("xOffset", offset);
         render(shader, VAO);
         window.swapBuffer();

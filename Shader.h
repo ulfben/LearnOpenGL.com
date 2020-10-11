@@ -33,6 +33,9 @@ public:
     void setFloat(std::string_view name, float value) const noexcept {
         glUniform1f(glGetUniformLocation(ID, name.data()), value);
     }
+    void setFloat(std::string_view name, double value) const noexcept {
+        setFloat(name, static_cast<float>(value));
+    }
 
 private:
     static bool checkStatus(GLuint obj) noexcept {
