@@ -160,6 +160,7 @@
     <ClInclude Include="FileReader.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="System.h" />
+    <ClInclude Include="Texture.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>

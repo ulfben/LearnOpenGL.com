@@ -1,11 +1,12 @@
 #include "System.h"
 #include "Window.h"
 #include "Shader.h"
+#include "Texture.h"
 #include <filesystem>
 #include <iostream>
 #include <vector>
 #include <cmath>
-using path = std::filesystem::path;
+
 /*
 * Picking up a bit of OpenGL in the evenings, following the tutorials over at https://learnopengl.com/
 */
@@ -53,14 +54,18 @@ void render(const Shader& shader, GLuint VAO) noexcept {
 }
 
 int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[]){    
+    using Path = std::filesystem::path;
+
     System system;    
     Window window(SCREEN_WIDTH, SCREEN_HEIGHT, "LearnOpenGL");
     window.makeCurrent();   
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
         throw std::runtime_error("Failed to initialize GLAD \n");
     }  
-    Shader shader(path("shaders/shader02.vs"), path("shaders/shader02.fs"));        
+    Shader shader(Path("shaders/shader02.vs"), Path("shaders/shader02.fs"));        
     shader.use();
+
+    Texture t{ Path("textures/container.jpg") };
 
     GLuint VBO, VAO; //Vertex Buffer Object (verts), Vertex Array Object (vertex attribute calls)
     glGenVertexArrays(1, &VAO); //Vertex Array Object (vertex attribute calls)
@@ -89,7 +94,12 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[]){
     // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0); //unbind VAO       
-      
+    
+
+
+
+
+
     const auto RANGE = 1.0; //amplitude of our sine wave (how far to travel)
     const auto SPEED = 360.0 / 2.0; //I want to cover a full revolution (360 degrees) in 2 seconds.
     while (!window.shouldClose()) {        
