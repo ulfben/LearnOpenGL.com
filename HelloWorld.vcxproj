@@ -170,10 +170,14 @@
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="models\colored_triangle.verts" />
+    <None Include="models\textured_square.verts" />
     <None Include="shaders\shader01.fs" />
     <None Include="shaders\shader01.vs" />
     <None Include="shaders\shader02.fs" />
     <None Include="shaders\shader02.vs" />
+    <None Include="shaders\shader03.fs" />
+    <None Include="shaders\shader03.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

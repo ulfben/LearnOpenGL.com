@@ -70,5 +70,17 @@
     <None Include="shaders\shader02.vs">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="models\colored_triangle.verts">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="models\textured_square.verts">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="shaders\shader03.fs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="shaders\shader03.vs">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

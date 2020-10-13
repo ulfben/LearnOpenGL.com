@@ -3,7 +3,7 @@
 struct GLFWwindow;
 class Window {       
 public:
-    Window(const unsigned int width, const unsigned int height, const std::string title);
+    Window(unsigned int width, unsigned int height, std::string title);
     ~Window();
 
     void swapBuffer() const noexcept;
