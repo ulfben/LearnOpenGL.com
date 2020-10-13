@@ -8,7 +8,7 @@ System::System() {
     auto result = glfwInit();
     if (result == GLFW_FALSE) {
         throw std::runtime_error("Failed to initialize glfw \n");
-    }
+    }    
 }
 
 System::~System() {

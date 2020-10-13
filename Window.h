@@ -6,6 +6,7 @@ public:
     Window(unsigned int width, unsigned int height, std::string title);
     ~Window();
 
+    void vsync(bool on) const noexcept;
     void swapBuffer() const noexcept;
     bool shouldClose() const noexcept;
     GLFWwindow* getPtr() const noexcept;

@@ -19,13 +19,18 @@ Window::Window(const unsigned int width, const unsigned int height, const std::s
     if (!_window) {
         throw std::runtime_error("Failed to create GLFW window \n");
     }
-    glfwSetWindowUserPointer(_window, this); //save this instance, so we can use the pointer for our callbacks.
-    setCallbacks();
+    glfwSetWindowUserPointer(_window, this); //save this instance, so we can use the pointer for our callbacks.    
+    setCallbacks();    
 }
 
 Window::~Window()
 {
     glfwDestroyWindow(_window);
+}
+
+void Window::vsync(bool on) const noexcept {
+    const int swapInterval = on ? 1 : 0;
+    glfwSwapInterval(swapInterval);
 }
 
 void Window::swapBuffer() const noexcept

@@ -72,13 +72,14 @@ void render(const Shader& shader, GLuint VAO, const std::vector<GLuint>& element
 
 int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[]){    
     using Path = std::filesystem::path;
-
     System system;    
     Window window(SCREEN_WIDTH, SCREEN_HEIGHT, "LearnOpenGL");
     window.makeCurrent();   
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
         throw std::runtime_error("Failed to initialize GLAD \n");
     }  
+    window.vsync(true);
+
     Shader shader(Path("shaders/shader03.vs"), Path("shaders/shader03.fs"));        
     shader.use();     
 
@@ -137,9 +138,9 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[]){
     const auto SPEED = 360.0 / 2.0; //I want to cover a full revolution (360 degrees) in 2 seconds.
     while (!window.shouldClose()) {        
         processInput(window.getPtr());
-        //const auto angle = std::fmod(glfwGetTime() * SPEED, 360); //turn linear, ever growing, timestamp into 0-359 range                
-        //const auto offset = std::sin(radians(angle)) * RANGE;        
-        //shader.setFloat("xOffset", offset);
+        const auto angle = std::fmod(glfwGetTime() * SPEED, 360); //turn linear, ever growing, timestamp into 0-359 range                
+        const auto offset = std::sin(radians(angle)) * RANGE;        
+        shader.setFloat("xOffset", offset);
         render(shader, VAO, indices);
         window.swapBuffer();
         glfwPollEvents();
