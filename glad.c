@@ -188,16 +188,17 @@ static int get_exts(void) {
             return 0;
         }
 
-        for(index = 0; index < (unsigned)num_exts_i; index++) {
-            const char *gl_str_tmp = (const char*)glGetStringi(GL_EXTENSIONS, index);
-            size_t len = strlen(gl_str_tmp);
+		for (index = 0; index < (unsigned)num_exts_i; index++) {
+			const char* gl_str_tmp = (const char*)glGetStringi(GL_EXTENSIONS, index);
+			const size_t len = strlen(gl_str_tmp);
 
-            char *local_str = (char*)malloc((len+1) * sizeof(char));
-            if(local_str != NULL) {
-                memcpy(local_str, gl_str_tmp, (len+1) * sizeof(char));
-            }
-            exts_i[index] = local_str;
-        }
+			const size_t local_len = (len + 1) * sizeof(char);
+			char* local_str = (char*)malloc(local_len);
+			if (local_str != NULL) {
+				strcpy_s(local_str, local_len, gl_str_tmp);
+			}
+			exts_i[index] = local_str;
+		}
     }
 #endif
     return 1;

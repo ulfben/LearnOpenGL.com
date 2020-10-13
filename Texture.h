@@ -1,51 +1,20 @@
 #pragma once
 #include <filesystem>
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
+class Texture {    
+    int _width = 0;
+    int _height = 0;
+    int _bpp = 0;
+    unsigned char* _pixels = nullptr;
 
-class Texture {
-	using Path = std::filesystem::path;
-	int width = 0;
-	int height = 0; 
-	int bpp = 0;
-	unsigned char* pixels = nullptr;
 public:
-	Texture(Path filepath){
-		load(filepath);
-	}
+    Texture(std::filesystem::path file);
+    ~Texture();      
 
-	~Texture() { unload();	}
+    int components() const noexcept;
 
-	bool load(Path filepath) noexcept {
-		unload();		
-		auto path = filepath.string();
-		pixels = stbi_load(path.c_str(), &width, &height, &bpp, 0);
-		if (!pixels) {
-			return false;
-		}
-		return true;
-	}
+    int width() const noexcept;
 
-	void unload() noexcept {
-		if (nullptr != pixels) {
-			stbi_image_free(pixels);
-			pixels = nullptr;
-		}
-	}
+    int height() const noexcept;
 
-	int getComponents() const noexcept {
-		return bpp;
-	}
-
-	int getWidth() const noexcept {
-		return width;
-	}
-
-	int getHeight() const noexcept {
-		return height;
-	}
-
-	unsigned char* getPixels() const noexcept {
-		return pixels;
-	}
+    unsigned char* pixels() const noexcept;
 };

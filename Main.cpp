@@ -1,3 +1,6 @@
+#include "glad/glad.h"  // include glad to get all the required OpenGL headers
+#include "GLFW/glfw3.h"
+
 #include "System.h"
 #include "Window.h"
 #include "Shader.h"
@@ -63,9 +66,7 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[]){
         throw std::runtime_error("Failed to initialize GLAD \n");
     }  
     Shader shader(Path("shaders/shader02.vs"), Path("shaders/shader02.fs"));        
-    shader.use();
-
-    Texture t{ Path("textures/container.jpg") };
+    shader.use();     
 
     GLuint VBO, VAO; //Vertex Buffer Object (verts), Vertex Array Object (vertex attribute calls)
     glGenVertexArrays(1, &VAO); //Vertex Array Object (vertex attribute calls)
@@ -95,11 +96,15 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[]){
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0); //unbind VAO       
     
-
-
-
-
-
+    GLuint texture;
+    {
+        Texture t{ Path("textures/container.jpg") };        
+        const GLuint mipmapLevel = 0;
+        glGenTextures(1, &texture);
+        glBindTexture(GL_TEXTURE_2D, texture);
+        glTexImage2D(GL_TEXTURE_2D, mipmapLevel, GL_RGB, t.width(), t.height(), 0, GL_RGB, GL_UNSIGNED_BYTE, t.pixels());
+        glGenerateMipmap(GL_TEXTURE_2D);
+    }
     const auto RANGE = 1.0; //amplitude of our sine wave (how far to travel)
     const auto SPEED = 360.0 / 2.0; //I want to cover a full revolution (360 degrees) in 2 seconds.
     while (!window.shouldClose()) {        
