@@ -29,6 +29,7 @@ void render(const Model& model) noexcept {
 
 void endFrame(const Window& window) noexcept {
     window.swapBuffer();
+    glfwPollEvents();
 }
 
 int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[]){    
@@ -53,8 +54,7 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[]){
         shader.setFloat("xOffset", offset);       
         startFrame(window);
         render(box); 
-        endFrame(window);
-        glfwPollEvents();
+        endFrame(window);        
     }       
     return 0;
 }
