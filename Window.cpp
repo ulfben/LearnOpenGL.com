@@ -53,6 +53,13 @@ void Window::makeCurrent() const noexcept
     glfwMakeContextCurrent(_window);
 }
 
+void Window::processInput() const noexcept
+{
+    if (glfwGetKey(_window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+        glfwSetWindowShouldClose(_window, true);
+    }
+}
+
 void Window::onFrameBufferSize(int width, int height) const noexcept
 {
     glViewport(0, 0, width, height);

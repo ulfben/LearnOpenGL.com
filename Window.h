@@ -11,7 +11,7 @@ public:
     bool shouldClose() const noexcept;
     GLFWwindow* getPtr() const noexcept;
     void makeCurrent() const noexcept;
-
+    void processInput() const noexcept;
 private:
     std::string _title;
     unsigned int _width = 0;

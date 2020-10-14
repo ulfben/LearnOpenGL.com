@@ -4,15 +4,20 @@
 #include <string>
 #include <iostream>
 
-Shader::Shader(std::string_view vertexShaderSource, std::string_view fragmentShaderSource)
+Shader::Shader(std::string_view vertexShaderSource, std::string_view fragmentShaderSource) : ID(GL_INVALID_VALUE)
 {
     ID = buildShader(vertexShaderSource, fragmentShaderSource);
 }
-Shader::Shader(Path vertexShader, Path fragmentShader)
+Shader::Shader(Path vertexShader, Path fragmentShader) : ID(GL_INVALID_VALUE)
 {
     FileReader vShader(vertexShader);
     FileReader fShader(fragmentShader);
     ID = buildShader(vShader.getContent(), fShader.getContent());
+}
+
+Shader::~Shader()
+{
+    glDeleteProgram(ID);
 }
 
 void Shader::use() const noexcept

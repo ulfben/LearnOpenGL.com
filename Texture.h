@@ -1,13 +1,14 @@
 #pragma once
+#include <string_view>
 #include <filesystem>
+#include "Image.h"
+//TODO: can't be passed by value, since running the destructor == deleting a global resource. This design is too fragile.
 class Texture {    
-    int _width = 0;
-    int _height = 0;
-    int _bpp = 0;
-    unsigned char* _pixels = nullptr;
-
+    using Path = std::filesystem::path;
+    using GLuint = unsigned int;
 public:
-    Texture(std::filesystem::path file);
+    GLuint ID;
+    Texture(const Image& data);
     ~Texture();      
 
     int components() const noexcept;
